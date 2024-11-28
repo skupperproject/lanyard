@@ -1,5 +1,6 @@
 FROM alpine:latest
 
+# Install base tools without tshark
 RUN apk update && apk add --no-cache \
     curl \
     traceroute \
@@ -12,13 +13,26 @@ RUN apk update && apk add --no-cache \
     tcpdump \
     mtr \
     socat \
-    tshark \
     bind-tools \
     iproute2 \
-    openssh-client
+    openssh-client \
+    python3 \
+    procps \
+    coreutils \
+    mongodb-tools \
+    postgresql-client \
+    py3-flask
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Install Go separately in a minimal way
+RUN apk add --no-cache --virtual .build-deps go && \
+    mkdir -p /usr/local/go/bin && \
+    mv /usr/bin/go /usr/local/go/bin/ && \
+    apk del .build-deps
 
-ENTRYPOINT ["/entrypoint.sh"]
+# Copy the Flask app
+COPY app.py /app.py
 
+# Expose port 5000 for the app.py
+EXPOSE 5000
+
+CMD ["python3", "/app.py"]
