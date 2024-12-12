@@ -1,29 +1,28 @@
-FROM alpine:latest
+FROM alpine:3.16
 
-# Install base tools without tshark
 RUN apk update && apk add --no-cache \
- bash \
- curl \
- wget \
- tar \
- traceroute \
- openssl \
- iperf \
- busybox-extras \
- nmap \
- netcat-openbsd \
- tcpdump \
- mtr \
- socat \
- bind-tools \
- iproute2 \
- openssh-client \
- python3 \
- procps \
- coreutils \
- mongodb-tools \
- postgresql-client \
- py3-flask
+  bash \
+  curl \
+  wget \
+  tar \
+  traceroute \
+  openssl \
+  iperf \
+  busybox-extras \
+  nmap \
+  netcat-openbsd \
+  tcpdump \
+  mtr \
+  socat \
+  bind-tools \
+  iproute2 \
+  openssh-client \
+  python3 \
+  procps \
+  coreutils \
+  mongodb-tools \
+  postgresql-client \
+  py3-flask
 
 # Install Go 1.22.8 manually to /usr/local/go
 ENV GO_VERSION=1.22.8
