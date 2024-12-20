@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM mirror.gcr.io/library/alpine:latest
 
 # Install base tools
 RUN apk update && apk add --no-cache \
