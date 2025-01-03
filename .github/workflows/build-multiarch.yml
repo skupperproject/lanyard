@@ -22,6 +22,6 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t quay.io/rzago/lanyard:latest \
+            -t quay.io/skupper/lanyard:latest \
             --push .
 
