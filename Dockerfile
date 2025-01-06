@@ -39,9 +39,6 @@ RUN wget -O go.tar.gz $GO_URL && \
     tar -C /usr/local -xzf go.tar.gz && \
     rm go.tar.gz
 
-# Add SSL certificates
-COPY certs /etc/nginx/certs
-
 # Set Go path
 ENV PATH="/usr/local/go/bin:${PATH}"
 
