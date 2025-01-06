@@ -1,6 +1,6 @@
 FROM mirror.gcr.io/library/alpine:latest
 
-# Install base tools
+# Install base tools and nginx
 RUN apk update && apk add --no-cache \
   bash \
   curl \
@@ -23,7 +23,7 @@ RUN apk update && apk add --no-cache \
   coreutils \
   mongodb-tools \
   postgresql15-client \
-  py3-flask
+  nginx
 
 # Set up build arguments (provided by buildx)
 ARG TARGETOS
@@ -45,12 +45,9 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 # Verify Go installation
 RUN go version
 
-# Copy the Flask app
-COPY app.py /app.py
+# Expose default HTTP port
+EXPOSE 8080
 
-# Expose port 5000
-EXPOSE 5000
-
-# Run the Flask app
-CMD ["python3", "/app.py"]
+# Command to run nginx
+CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
 
