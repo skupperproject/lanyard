@@ -1,7 +1,11 @@
 FROM mirror.gcr.io/library/alpine:latest
 
+# Set up build arguments (provided by buildx)
+ARG TARGETOS
+ARG TARGETARCH
+
 # Install base tools and nginx
-RUN apk update && apk add --no-cache \
+  RUN apk update && apk add --no-cache \
   bash \
   curl \
   wget \
@@ -21,13 +25,9 @@ RUN apk update && apk add --no-cache \
   python3 \
   procps \
   coreutils \
-  mongodb-tools \
+  $(if [ "$TARGETOS" = "linux" ] && [ "$TARGETARCH" = "s390x" ]; then echo ""; else echo "mongodb-tools"; fi) \
   postgresql15-client \
   nginx
-
-# Set up build arguments (provided by buildx)
-ARG TARGETOS
-ARG TARGETARCH
 
 # Set Go version
 ENV GO_VERSION=1.22.8
@@ -50,4 +50,3 @@ EXPOSE 8080
 
 # Command to run nginx
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
-
