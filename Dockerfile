@@ -39,6 +39,10 @@ RUN wget -O go.tar.gz $GO_URL && \
     tar -C /usr/local -xzf go.tar.gz && \
     rm go.tar.gz
 
+# Download and install oha
+RUN wget -qO /usr/local/bin/oha https://github.com/hatoo/oha/releases/latest/download/oha-linux-${TARGETARCH} && \
+    chmod +x /usr/local/bin/oha
+
 # Set Go path
 ENV PATH="/usr/local/go/bin:${PATH}"
 
