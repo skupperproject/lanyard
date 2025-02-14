@@ -44,6 +44,7 @@ The Docker image includes the following tools:
 - `postgresql-client`
 - **Go** (installed minimally)
 - `nginx`
+- `oha`
 
 ## Getting Started
 
