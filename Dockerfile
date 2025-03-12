@@ -23,6 +23,7 @@ RUN apk update && apk add --no-cache \
   coreutils \
   mongodb-tools \
   postgresql15-client \
+  redis \
   nginx
 
 # Set up build arguments (provided by buildx)
