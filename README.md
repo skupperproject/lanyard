@@ -45,6 +45,7 @@ The Docker image includes the following tools:
 - **Go** (installed minimally)
 - `nginx`
 - `oha`
+- `redis`
 
 ## Getting Started
 
