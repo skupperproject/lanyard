@@ -28,7 +28,7 @@ RUN apk update && apk add --no-cache \
   postgresql15-client \
   redis \
   nginx && \
-  if [ "$TARGETOS" = "linux" ] && [ "$TARGETARCH" != "s390x" ]; then \
+  if [ "$TARGETOS" = "linux" ] && [ "$TARGETARCH" != "s390x" ] && [ "$TARGETARCH" != "ppc64le" ]; then \
     apk add --no-cache mongodb-tools && \
     wget -qO /usr/local/bin/oha https://github.com/hatoo/oha/releases/latest/download/oha-linux-${TARGETARCH} && \
     chmod +x /usr/local/bin/oha; \
