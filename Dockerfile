@@ -25,7 +25,7 @@ RUN apk update && apk add --no-cache \
   python3 \
   procps \
   coreutils \
-  postgresql15-client \
+  postgresql16-client \
   redis \
   nginx && \
   if [ "$TARGETOS" = "linux" ] && [ "$TARGETARCH" != "s390x" ] && [ "$TARGETARCH" != "ppc64le" ]; then \
@@ -35,7 +35,7 @@ RUN apk update && apk add --no-cache \
   fi
 
 # Set Go version and download URL
-ENV GO_VERSION=1.22.8
+ENV GO_VERSION=1.25.0
 ENV GO_URL=https://dl.google.com/go/go${GO_VERSION}.${TARGETOS}-${TARGETARCH}.tar.gz
 
 # Download and install Go
@@ -49,8 +49,19 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 # Verify Go installation
 RUN go version
 
+# Copy our custom config to the correct place
+COPY custom-nginx.conf /etc/nginx/nginx.conf
+
 # Expose default HTTP port
 EXPOSE 8080
+
+# Set permissions to the non-root user for Nginx folders
+RUN mkdir -p /var/lib/nginx/logs /var/lib/nginx/tmp /var/log/nginx /run/nginx && \
+    chown -R 10000:0 /var/lib/nginx /var/log/nginx /run/nginx && \
+    chmod -R g+rwX /var/lib/nginx /var/log/nginx /run/nginx
+
+# Run as non-root user
+USER 10000
 
 # Run nginx in foreground
 CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
